@@ -462,15 +462,24 @@ function renderRecentCallsTable() {
 
     const secondary = document.createElement('div');
     secondary.className = 'item-secondary';
+
+    const chips = document.createElement('div');
+    chips.className = 'item-chips';
     const badge = document.createElement('span');
     badge.className = `badge ${call.active === false ? 'muted' : 'good'}`;
     badge.textContent = call.stage || (call.active === false ? 'Neaktivno' : 'Aktivno');
-    secondary.appendChild(badge);
+    chips.appendChild(badge);
 
-    const timeline = document.createElement('p');
-    timeline.className = 'item-meta';
-    timeline.textContent = `Rok: ${formatDateShort(call.deadline || call.lastSeenAt)} | Azurirano: ${formatDate(call.lastChangedAt || call.lastSeenAt)}`;
-    secondary.appendChild(timeline);
+    const deadlineChip = document.createElement('span');
+    deadlineChip.className = 'item-chip';
+    deadlineChip.textContent = `Rok ${formatDateShort(call.deadline || call.lastSeenAt)}`;
+    chips.appendChild(deadlineChip);
+
+    const updatedChip = document.createElement('span');
+    updatedChip.className = 'item-chip';
+    updatedChip.textContent = `Azurirano ${formatDate(call.lastChangedAt || call.lastSeenAt)}`;
+    chips.appendChild(updatedChip);
+    secondary.appendChild(chips);
 
     const actions = document.createElement('div');
     actions.className = 'item-actions';
@@ -512,10 +521,19 @@ function renderNotificationsTable() {
 
     const secondary = document.createElement('div');
     secondary.className = 'item-secondary';
-    const time = document.createElement('p');
-    time.className = 'item-meta';
+    const chips = document.createElement('div');
+    chips.className = 'item-chips';
+
+    const time = document.createElement('span');
+    time.className = 'item-chip';
     time.textContent = formatDate(item.createdAt);
-    secondary.appendChild(time);
+    chips.appendChild(time);
+
+    const type = document.createElement('span');
+    type.className = 'item-chip';
+    type.textContent = item.type === 'new' ? 'Novi' : 'Faza';
+    chips.appendChild(type);
+    secondary.appendChild(chips);
 
     const actions = document.createElement('div');
     actions.className = 'item-actions';
