@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">DN Extension Mark</title>
+  <desc id="desc">Modernized geometric mark derived from Drzavne nekretnine logo without logotype text.</desc>
+  <defs>
+    <linearGradient id="slateA" x1="34" y1="32" x2="128" y2="126" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A9B1BC"/>
+      <stop offset="1" stop-color="#7C8694"/>
+    </linearGradient>
+    <linearGradient id="slateB" x1="222" y1="32" x2="128" y2="126" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8F98A6"/>
+      <stop offset="1" stop-color="#677282"/>
+    </linearGradient>
+    <linearGradient id="ruby" x1="128" y1="72" x2="128" y2="208" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F94A69"/>
+      <stop offset="1" stop-color="#B4163B"/>
+    </linearGradient>
+    <linearGradient id="rubyGloss" x1="128" y1="72" x2="128" y2="142" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.56"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <polygon points="34 32 34 126 128 32" fill="url(#slateA)"/>
+  <polygon points="222 32 128 32 222 126" fill="url(#slateB)"/>
+  <polygon points="128 72 196 140 128 208 60 140" fill="url(#ruby)"/>
+
+  <path d="M128 78 190 140 128 140 66 140Z" fill="url(#rubyGloss)" opacity="0.7"/>
+
+  <polygon points="128 72 196 140 128 208 60 140" fill="none" stroke="#3E0E18" stroke-opacity="0.35" stroke-width="2"/>
+  <polygon points="34 32 34 126 128 32" fill="none" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="2"/>
+  <polygon points="222 32 128 32 222 126" fill="none" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="2"/>
+</svg>

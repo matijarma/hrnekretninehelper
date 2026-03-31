@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "DN Nekretnine Helper",
+    "description": "Ime ekstenzije"
+  },
+  "extensionDescription": {
+    "message": "\u010cist i privatni CRM pomo\u0107nik za natje\u010daje na hr-nekretnine.hr",
+    "description": "Opis ekstenzije"
+  },
+  "actionTitle": {
+    "message": "DN Nekretnine Helper",
+    "description": "Naslov popup prozora"
+  }
+}
