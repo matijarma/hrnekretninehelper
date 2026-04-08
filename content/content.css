@@ -1,66 +1,85 @@
+/* ═══════════════════════════════════════════════════════════
+   DN Nekretnine Helper — Content Script Styles
+   ═══════════════════════════════════════════════════════════
+   Injected into hr-nekretnine.hr pages.
+   Uses --nhr- prefix to avoid host-page conflicts.
+   Aligned with the redesigned popup token aesthetic.
+   ═══════════════════════════════════════════════════════════ */
+
 :root {
-  --nhr-surface: rgba(255, 255, 255, 0.93);
-  --nhr-surface-2: rgba(248, 251, 255, 0.96);
-  --nhr-text: #17283d;
-  --nhr-muted: #5a708c;
-  --nhr-line: #cfd9e6;
-  --nhr-line-strong: #b8c8db;
-  --nhr-primary: #b71f43;
-  --nhr-success: #1f7b5d;
-  --nhr-danger: #b63a50;
-  --nhr-gold: #956f1e;
-  --nhr-radius: 11px;
-  --nhr-shadow: 0 7px 20px rgba(16, 32, 52, 0.14);
-  --nhr-focus: 0 0 0 3px rgba(183, 31, 67, 0.2);
-  --nhr-font: 'Segoe UI', 'Aptos', sans-serif;
+  --nhr-surface: rgba(255, 255, 255, 0.88);
+  --nhr-surface-2: rgba(248, 250, 254, 0.92);
+  --nhr-text: #111928;
+  --nhr-muted: #6b7a8d;
+  --nhr-line: rgba(0, 0, 0, 0.08);
+  --nhr-line-strong: rgba(0, 0, 0, 0.14);
+  --nhr-primary: #c9234b;
+  --nhr-success: #0d9668;
+  --nhr-danger: #dc2626;
+  --nhr-gold: #a07c1c;
+  --nhr-radius: 12px;
+  --nhr-radius-sm: 8px;
+  --nhr-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  --nhr-shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.14);
+  --nhr-focus: 0 0 0 3px rgba(201, 35, 75, 0.22);
+  --nhr-font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --nhr-blur: blur(20px) saturate(180%);
+  --nhr-dur: 200ms;
+  --nhr-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root.nhr-theme-dark {
-  --nhr-surface: rgba(24, 39, 57, 0.93);
-  --nhr-surface-2: rgba(31, 50, 74, 0.96);
-  --nhr-text: #ebf3ff;
-  --nhr-muted: #acc2de;
-  --nhr-line: #334c68;
-  --nhr-line-strong: #4a678d;
-  --nhr-primary: #ef4f72;
-  --nhr-success: #3fd0a0;
-  --nhr-danger: #ff7f99;
+  --nhr-surface: rgba(18, 28, 45, 0.88);
+  --nhr-surface-2: rgba(24, 38, 58, 0.92);
+  --nhr-text: #f0f4fa;
+  --nhr-muted: #8899b0;
+  --nhr-line: rgba(255, 255, 255, 0.09);
+  --nhr-line-strong: rgba(255, 255, 255, 0.15);
+  --nhr-primary: #f0506e;
+  --nhr-success: #34d399;
+  --nhr-danger: #f87171;
   --nhr-gold: #e4bc63;
-  --nhr-shadow: 0 9px 24px rgba(0, 7, 16, 0.38);
-  --nhr-focus: 0 0 0 3px rgba(239, 79, 114, 0.28);
+  --nhr-shadow: 0 4px 16px rgba(0, 0, 0, 0.26);
+  --nhr-shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.34);
+  --nhr-focus: 0 0 0 3px rgba(240, 80, 110, 0.28);
 }
 
+/* ── Row states ─────────────────────────────────────────── */
+
 .nhr-managed-row {
-  transition: opacity 0.16s ease;
+  transition: opacity var(--nhr-dur) var(--nhr-ease);
 }
 
 .nhr-row-hidden {
-  opacity: 0.56;
-  filter: grayscale(0.2);
+  opacity: 0.5;
+  filter: grayscale(0.25);
 }
 
 .nhr-row-repeater {
   border-left: 4px solid var(--nhr-gold) !important;
-  border-radius: 6px;
-  background: linear-gradient(90deg, rgba(149, 111, 30, 0.14) 0%, transparent 14%);
-  padding-left: 13px;
+  border-radius: var(--nhr-radius-sm);
+  background: linear-gradient(90deg, rgba(160, 124, 28, 0.10) 0%, transparent 12%);
+  padding-left: 14px;
 }
+
+/* ── Unhide bar ─────────────────────────────────────────── */
 
 .nhr-unhide-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
   margin: 8px 0 12px;
-  padding: 8px 10px;
+  padding: 10px 14px;
   border-radius: var(--nhr-radius);
   border: 1px solid var(--nhr-line);
   background: var(--nhr-surface);
   color: var(--nhr-muted);
   font: 600 12px/1.35 var(--nhr-font);
   box-shadow: var(--nhr-shadow);
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: var(--nhr-blur);
+  -webkit-backdrop-filter: var(--nhr-blur);
+  animation: nhrSlideDown 300ms var(--nhr-ease) both;
 }
 
 .nhr-unhide-btn {
@@ -69,13 +88,22 @@
   background: var(--nhr-surface-2);
   color: var(--nhr-primary);
   font: 700 11px/1 var(--nhr-font);
-  padding: 5px 9px;
+  padding: 6px 12px;
   cursor: pointer;
+  transition: transform 120ms var(--nhr-ease),
+              background var(--nhr-dur) var(--nhr-ease);
 }
 
-.tab-pane_item {
-  position: relative;
+.nhr-unhide-btn:hover {
+  background: rgba(201, 35, 75, 0.08);
+  transform: translateY(-1px);
 }
+
+.nhr-unhide-btn:active { transform: scale(0.96); }
+
+/* ── Item actions ───────────────────────────────────────── */
+
+.tab-pane_item { position: relative; }
 
 .nhr-item-actions {
   position: absolute;
@@ -84,11 +112,12 @@
   display: flex;
   gap: 6px;
   z-index: 12;
+  animation: nhrFadeIn 300ms var(--nhr-ease) both;
 }
 
 .nhr-icon-btn {
-  width: 31px;
-  height: 31px;
+  width: 32px;
+  height: 32px;
   border: 1px solid var(--nhr-line);
   border-radius: 50%;
   background: var(--nhr-surface);
@@ -98,41 +127,38 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: var(--nhr-shadow);
-  transition: border-color 0.16s ease;
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: var(--nhr-blur);
+  -webkit-backdrop-filter: var(--nhr-blur);
+  transition: transform 120ms var(--nhr-ease),
+              border-color var(--nhr-dur) var(--nhr-ease),
+              background var(--nhr-dur) var(--nhr-ease);
 }
 
 .nhr-icon-btn:hover {
   border-color: var(--nhr-line-strong);
+  transform: scale(1.1);
 }
 
-.nhr-icon-btn.tag {
-  color: var(--nhr-primary);
-}
+.nhr-icon-btn:active { transform: scale(0.92); }
 
-.nhr-icon-btn.bid {
-  color: var(--nhr-success);
-}
+.nhr-icon-btn.tag  { color: var(--nhr-primary); }
+.nhr-icon-btn.bid  { color: var(--nhr-success); }
+.nhr-icon-btn.edit { color: var(--nhr-gold); }
+.nhr-icon-btn.hide { color: var(--nhr-danger); }
 
 .nhr-icon-btn.bid.active {
-  border-color: rgba(31, 123, 93, 0.45);
-  background: rgba(31, 123, 93, 0.13);
+  border-color: rgba(13, 150, 104, 0.40);
+  background: rgba(13, 150, 104, 0.10);
 }
 
-.nhr-icon-btn.edit {
-  color: var(--nhr-gold);
-}
-
-.nhr-icon-btn.hide {
-  color: var(--nhr-danger);
-}
+/* ── Badges ─────────────────────────────────────────────── */
 
 .nhr-badge-container {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin: 8px 0 12px;
+  animation: nhrFadeIn 300ms var(--nhr-ease) 100ms both;
 }
 
 .nhr-badge {
@@ -140,47 +166,54 @@
   border-radius: 999px;
   background: var(--nhr-surface-2);
   color: var(--nhr-text);
-  padding: 3px 9px;
-  font: 650 11px/1.2 var(--nhr-font);
+  padding: 3px 10px;
+  font: 600 11px/1.2 var(--nhr-font);
 }
 
 .nhr-badge.bidded {
   color: var(--nhr-success);
-  border-color: rgba(31, 123, 93, 0.45);
-  background: rgba(31, 123, 93, 0.1);
+  border-color: rgba(13, 150, 104, 0.40);
+  background: rgba(13, 150, 104, 0.08);
 }
 
 .nhr-badge.repeater {
   color: var(--nhr-gold);
-  border-color: rgba(149, 111, 30, 0.46);
-  background: rgba(149, 111, 30, 0.12);
+  border-color: rgba(160, 124, 28, 0.40);
+  background: rgba(160, 124, 28, 0.08);
 }
+
+/* ── Buttons ────────────────────────────────────────────── */
 
 .nhr-btn {
   width: 100%;
   border: 1px solid transparent;
-  border-radius: 9px;
+  border-radius: 10px;
   background: var(--nhr-surface-2);
   color: var(--nhr-text);
-  padding: 8px;
+  padding: 9px 12px;
   font: 700 12px/1.2 var(--nhr-font);
   cursor: pointer;
+  transition: transform 120ms var(--nhr-ease),
+              box-shadow var(--nhr-dur) var(--nhr-ease);
 }
 
+.nhr-btn:hover { transform: translateY(-1px); box-shadow: var(--nhr-shadow); }
+.nhr-btn:active  { transform: scale(0.97); }
+
 .nhr-btn-primary {
-  background: linear-gradient(140deg, #b71f43, #991839);
+  background: linear-gradient(135deg, var(--nhr-primary), #a91d40);
   color: #fff;
 }
 
-.nhr-btn-secondary {
-  border-color: var(--nhr-line);
-}
+.nhr-btn-secondary { border-color: var(--nhr-line); }
 
 .nhr-btn-danger {
-  border-color: rgba(182, 58, 80, 0.45);
+  border-color: rgba(220, 38, 38, 0.30);
   color: var(--nhr-danger);
-  background: rgba(182, 58, 80, 0.1);
+  background: rgba(220, 38, 38, 0.08);
 }
+
+/* ── Modal ──────────────────────────────────────────────── */
 
 .nhr-modal-overlay {
   position: fixed;
@@ -190,29 +223,33 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(7, 14, 24, 0.45);
+  background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+  animation: nhrFadeIn var(--nhr-dur) var(--nhr-ease) both;
 }
 
 .nhr-modal {
   width: min(420px, 96vw);
   border: 1px solid var(--nhr-line);
-  border-radius: 13px;
+  border-radius: 16px;
   background: var(--nhr-surface);
   color: var(--nhr-text);
   font-family: var(--nhr-font);
-  box-shadow: var(--nhr-shadow);
-  padding: 14px;
+  box-shadow: var(--nhr-shadow-lg);
+  padding: 16px;
   display: grid;
-  gap: 8px;
-  backdrop-filter: blur(10px) saturate(120%);
-  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  gap: 10px;
+  backdrop-filter: var(--nhr-blur);
+  -webkit-backdrop-filter: var(--nhr-blur);
+  animation: nhrModalSlide 320ms cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
 .nhr-modal h3 {
   margin: 0;
   font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .nhr-modal-subtitle {
@@ -226,11 +263,21 @@
 .nhr-tag-custom-wrap input {
   width: 100%;
   border: 1px solid var(--nhr-line);
-  border-radius: 9px;
+  border-radius: 10px;
   background: var(--nhr-surface-2);
   color: var(--nhr-text);
-  padding: 8px 9px;
+  padding: 9px 10px;
   font: 500 12px/1.35 var(--nhr-font);
+  transition: box-shadow var(--nhr-dur) var(--nhr-ease),
+              border-color var(--nhr-dur) var(--nhr-ease);
+}
+
+.nhr-modal input:focus,
+.nhr-modal textarea:focus,
+.nhr-tag-custom-wrap input:focus {
+  outline: none;
+  border-color: var(--nhr-primary);
+  box-shadow: var(--nhr-focus);
 }
 
 .nhr-modal textarea {
@@ -241,7 +288,7 @@
 .nhr-modal-actions {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
+  gap: 8px;
 }
 
 .nhr-tag-presets,
@@ -257,14 +304,19 @@
   border-radius: 999px;
   background: var(--nhr-surface-2);
   color: var(--nhr-text);
-  padding: 5px 9px;
-  font: 650 11px/1.2 var(--nhr-font);
+  padding: 5px 10px;
+  font: 600 11px/1.2 var(--nhr-font);
   cursor: pointer;
+  transition: transform 120ms var(--nhr-ease),
+              background var(--nhr-dur) var(--nhr-ease);
 }
 
+.nhr-tag-preset:hover,
+.nhr-tag-chip:hover { transform: translateY(-1px); }
+
 .nhr-tag-preset.active {
-  border-color: rgba(183, 31, 67, 0.45);
-  background: rgba(183, 31, 67, 0.12);
+  border-color: rgba(201, 35, 75, 0.40);
+  background: rgba(201, 35, 75, 0.10);
   color: var(--nhr-primary);
 }
 
@@ -276,8 +328,10 @@
 .nhr-tag-custom-wrap {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 7px;
+  gap: 8px;
 }
+
+/* ── Focus states ───────────────────────────────────────── */
 
 .nhr-icon-btn:focus-visible,
 .nhr-btn:focus-visible,
@@ -290,6 +344,25 @@
   outline: none;
   box-shadow: var(--nhr-focus);
 }
+
+/* ── Animations ─────────────────────────────────────────── */
+
+@keyframes nhrFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes nhrSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nhrModalSlide {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
 
 @media (max-width: 860px) {
   .nhr-item-actions {
@@ -312,8 +385,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

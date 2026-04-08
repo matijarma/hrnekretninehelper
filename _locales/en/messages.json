@@ -1,14 +1,14 @@
 {
   "extensionName": {
-    "message": "DN Nekretnine Helper",
+    "message": "hr-nekretnine.hr Helper",
     "description": "Extension name"
   },
   "extensionDescription": {
-    "message": "Clean and private CRM assistant for hr-nekretnine.hr tenders",
+    "message": "Assistant for hr-nekretnine.hr tenders",
     "description": "Extension description"
   },
   "actionTitle": {
-    "message": "DN Nekretnine Helper",
+    "message": "hr-nekretnine.hr Helper",
     "description": "Popup title"
   }
 }

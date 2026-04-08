@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   if (window.__NHR_EXTENSION_ACTIVE__) return;
   window.__NHR_EXTENSION_ACTIVE__ = true;
 
@@ -6,9 +6,10 @@
     blocked: [],
     tags: {},
     bids: {},
+    sourceUrls: {},
     filters: {
-      city: '',
-      activity: '',
+      city: [],
+      activity: [],
       street: '',
       minArea: 0,
       maxArea: 0,
@@ -109,9 +110,10 @@
       blocked: Array.isArray(raw.blocked) ? [...new Set(raw.blocked.map((id) => String(id).trim()).filter(Boolean))] : [],
       tags: raw.tags && typeof raw.tags === 'object' ? raw.tags : {},
       bids: raw.bids && typeof raw.bids === 'object' ? raw.bids : {},
+      sourceUrls: raw.sourceUrls && typeof raw.sourceUrls === 'object' ? raw.sourceUrls : {},
       filters: {
-        city: String(filters.city || ''),
-        activity: String(filters.activity || ''),
+        city: Array.isArray(filters.city) ? filters.city : (filters.city ? [String(filters.city)] : []),
+        activity: Array.isArray(filters.activity) ? filters.activity : (filters.activity ? [String(filters.activity)] : []),
         street: String(filters.street || ''),
         minArea: Number.parseFloat(filters.minArea) || 0,
         maxArea: Number.parseFloat(filters.maxArea) || 0,
@@ -152,6 +154,12 @@
       root.classList.add('nhr-theme-dark');
     } else {
       root.classList.add('nhr-theme-light');
+    }
+  }
+
+  function trackSourceUrl(propId) {
+    if (propId && !appState.sourceUrls[propId]) {
+      appState.sourceUrls[propId] = window.location.href;
     }
   }
 
@@ -305,6 +313,7 @@
       if (hasBid) {
         delete appState.bids[data.propId];
       } else {
+        trackSourceUrl(data.propId);
         appState.bids[data.propId] = {
           markedAt: new Date().toISOString(),
           price: '',
@@ -322,6 +331,7 @@
       if (appState.blocked.includes(data.propId)) {
         appState.blocked = appState.blocked.filter((id) => id !== data.propId);
       } else {
+        trackSourceUrl(data.propId);
         appState.blocked.push(data.propId);
       }
       await syncState();
@@ -388,8 +398,8 @@
 
       let visible = true;
       if (hidden && !appState.filters.showBlocked) visible = false;
-      if (appState.filters.city && data.city !== appState.filters.city) visible = false;
-      if (appState.filters.activity && data.activity !== appState.filters.activity) visible = false;
+      if (appState.filters.city && appState.filters.city.length > 0 && !appState.filters.city.includes(data.city)) visible = false;
+      if (appState.filters.activity && appState.filters.activity.length > 0 && !appState.filters.activity.includes(data.activity)) visible = false;
       if (appState.filters.street && !data.street.toLowerCase().includes(appState.filters.street.toLowerCase())) visible = false;
       if (appState.filters.minArea && data.area < appState.filters.minArea) visible = false;
       if (appState.filters.maxArea && data.area > appState.filters.maxArea) visible = false;
@@ -536,8 +546,12 @@
 
     modal.querySelector('#nhr-tag-cancel').addEventListener('click', () => overlay.remove());
     modal.querySelector('#nhr-tag-save').addEventListener('click', async () => {
-      if (selected.length) appState.tags[propId] = selected;
-      else delete appState.tags[propId];
+      if (selected.length) {
+        trackSourceUrl(propId);
+        appState.tags[propId] = selected;
+      } else {
+        delete appState.tags[propId];
+      }
       await syncState();
       overlay.remove();
       renderAll();
@@ -585,6 +599,7 @@
     modal.querySelector('#nhr-bid-save').addEventListener('click', async () => {
       const rawPrice = modal.querySelector('#nhr-bid-price').value.trim();
       const parsedPrice = Number.parseFloat(rawPrice);
+      trackSourceUrl(propId);
       appState.bids[propId] = {
         ...(appState.bids[propId] || {}),
         markedAt: appState.bids[propId]?.markedAt || existing.markedAt || new Date().toISOString(),

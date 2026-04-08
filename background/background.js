@@ -1,4 +1,3 @@
-﻿const POLL_ALARM_NAME = 'check_tenders';
 const SIDE_PANEL_PATH = 'popup/popup.html';
 
 const CATEGORY_URLS = {
@@ -9,9 +8,9 @@ const CATEGORY_URLS = {
 const DEFAULT_SETTINGS = {
   language: 'hr',
   theme: 'auto',
+  feedCategory: 'all',
   tracking: {
     enabled: true,
-    intervalMinutes: 60,
     checkRent: true,
     checkSale: true,
     notifyNew: true,
@@ -41,28 +40,13 @@ void syncSidePanelBehavior();
 chrome.runtime.onInstalled.addListener(async () => {
   await syncSidePanelBehavior();
   await ensureSettings();
-  await scheduleFromSettings();
   await checkTenders();
 });
 
 chrome.runtime.onStartup.addListener(async () => {
   await syncSidePanelBehavior();
   await ensureSettings();
-  await scheduleFromSettings();
   await checkTenders();
-});
-
-chrome.storage.onChanged.addListener(async (changes, areaName) => {
-  if (areaName !== 'local') return;
-  if (changes.nhr_settings) {
-    await scheduleFromSettings();
-  }
-});
-
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === POLL_ALARM_NAME) {
-    checkTenders();
-  }
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -105,9 +89,9 @@ function normalizeSettings(raw = {}) {
   return {
     language: ['hr', 'en', 'auto'].includes(raw.language) ? raw.language : DEFAULT_SETTINGS.language,
     theme: ['auto', 'light', 'dark'].includes(raw.theme) ? raw.theme : DEFAULT_SETTINGS.theme,
+    feedCategory: ['all', 'rent', 'sale'].includes(raw.feedCategory) ? raw.feedCategory : DEFAULT_SETTINGS.feedCategory,
     tracking: {
       enabled: tracking.enabled !== undefined ? Boolean(tracking.enabled) : DEFAULT_SETTINGS.tracking.enabled,
-      intervalMinutes: Math.min(360, Math.max(15, Number.parseInt(tracking.intervalMinutes, 10) || DEFAULT_SETTINGS.tracking.intervalMinutes)),
       checkRent: tracking.checkRent !== undefined ? Boolean(tracking.checkRent) : DEFAULT_SETTINGS.tracking.checkRent,
       checkSale: tracking.checkSale !== undefined ? Boolean(tracking.checkSale) : DEFAULT_SETTINGS.tracking.checkSale,
       notifyNew: tracking.notifyNew !== undefined ? Boolean(tracking.notifyNew) : DEFAULT_SETTINGS.tracking.notifyNew,
@@ -185,22 +169,6 @@ function tx(settings) {
   return TEXT[lang] || TEXT.hr;
 }
 
-async function scheduleFromSettings() {
-  const storage = await chrome.storage.local.get(['nhr_settings']);
-  const settings = normalizeSettings(storage.nhr_settings || DEFAULT_SETTINGS);
-  const tracking = settings.tracking;
-
-  const hasCategory = tracking.checkRent || tracking.checkSale;
-  if (!tracking.enabled || !hasCategory) {
-    await chrome.alarms.clear(POLL_ALARM_NAME);
-    return;
-  }
-
-  chrome.alarms.create(POLL_ALARM_NAME, {
-    periodInMinutes: tracking.intervalMinutes
-  });
-}
-
 function buildNotificationId(url) {
   return `nhr|${encodeURIComponent(url)}|${Date.now()}`;
 }
@@ -249,7 +217,7 @@ function notifyCall(settings, type, callData, oldStage = '') {
 
   chrome.notifications.create(notificationId, {
     type: 'basic',
-    iconUrl: 'icons/icon128.png',
+    iconUrl: chrome.runtime.getURL('icons/icon128.png'),
     title,
     message,
     priority: 2,
@@ -349,6 +317,8 @@ async function checkTenders(manual = false) {
         ...call,
         stage: detail?.stage || call.stage || '',
         deadline: detail?.deadline || call.deadline || '',
+        // Keep category-list publication date as source of truth; detail parsing is fallback only.
+        publicationDate: call.publicationDate || detail?.publicationDate || '',
         stageDetails: detail?.stageDetails || call.stageDetails || '',
         fingerprint: detail?.fingerprint || call.fingerprint || `${call.title}|${call.stage}|${call.deadline}`,
         lastSeenAt: now,
@@ -429,10 +399,9 @@ async function setupOffscreenDocument(path) {
     creating = chrome.offscreen.createDocument({
       url: path,
       reasons: ['DOM_PARSER'],
-      justification: 'Parsiranje stranica natjeÄaja bez prikaza dodatnog suÄelja.'
+      justification: 'Parsiranje stranica natječaja bez prikaza dodatnog sučelja.'
     });
     await creating;
     creating = null;
   }
 }
-
