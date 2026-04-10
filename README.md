@@ -45,14 +45,17 @@ Filter the active webpage instantly without reloading:
 
 ## 🚀 Installation (Developer Mode)
 
-Since this is a custom tool, install it manually via Chrome's Developer Mode:
+[Install from the official Chrome Web Store page](https://chromewebstore.google.com/detail/hr-nekretninehr-asistent/lgoflneakfjiajafmmdibkgcjodbboii?authuser=0&hl=en)
+
+Or install manually via Chrome's Developer Mode:
 
 1. Clone or download this repository to your local machine.
 2. Open Google Chrome and navigate to `chrome://extensions/`.
 3. Enable **"Developer mode"** by toggling the switch in the top right corner.
 4. Click on the **"Load unpacked"** button.
 5. Select the `extension` folder containing the `manifest.json` file.
-6. The extension is now installed! 🎉 Pin it to your toolbar and open the **Side Panel** for the best experience.
+
+*** The extension is now installed! 🎉 Pin it to your toolbar and open the **Side Panel** for the best experience.
 
 ---
 
