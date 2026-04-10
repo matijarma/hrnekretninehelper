@@ -1,8 +1,10 @@
-# 🏛️ DN Nekretnine Helper
+# 🏛️ HR-Nekretnine Helper
 
 [![Manifest Version](https://img.shields.io/badge/Manifest-V3-blue.svg)]()
 [![Locale](https://img.shields.io/badge/Locale-HR%20%7C%20EN-green.svg)]()
 [![Design](https://img.shields.io/badge/Design-Liquid%20Glass-purple.svg)]()
+
+[Chrome Web store](https://chromewebstore.google.com/detail/hr-nekretninehr-asistent/lgoflneakfjiajafmmdibkgcjodbboii?authuser=0&hl=en)
 
 **DN Nekretnine Helper** is a powerful Chrome extension designed to work as your private CRM while browsing [hr-nekretnine.hr](https://hr-nekretnine.hr). It transforms your experience with a gorgeous **Liquid Glass** aesthetic, helping you filter listings, track bids, and get instant notifications for new real estate tenders.
 
