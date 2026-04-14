@@ -45,7 +45,7 @@ Filter the active webpage instantly without reloading:
 
 ## 🚀 Installation
 
-[Install from the official Chrome Web Store page](https://chromewebstore.google.com/detail/hr-nekretninehr-asistent/lgoflneakfjiajafmmdibkgcjodbboii?authuser=0&hl=en)
+[Install from the official Chrome Web Store page](https://chromewebstore.google.com/detail/hr-nekretninehr-asistent/jpnbmfkhagakcmoogiicbdfohobjkdel)
 
 Or install manually via Chrome's Developer Mode:
 
